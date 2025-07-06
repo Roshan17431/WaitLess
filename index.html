@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaitLess - Virtual Queue Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="intro-overlay">
+    <div class="intro-content">
+        <h1 class="glitter">WaitLess</h1>
+        <i class="fas fa-people-arrows"></i>
+    </div>
+</div>
+
+<script>
+    setTimeout(() => {
+        document.querySelector('.intro-overlay').style.display = 'none';
+        document.querySelector('.main-content').style.display = 'block';
+    }, 3000);
+</script>
+    <!-- Header -->
+    <header class="header">
+        <i class="fas fa-people-arrows"></i>
+            <!-- Notification Bell -->
+        <div class="notification-wrapper">
+            <button id="notificationBtn" class="notification-btn">
+                <i class="fa-regular fa-bell"></i>
+                <span id="notificationCount" class="notification-count hidden">0</span>
+            </button>
+            <div id="notificationDropdown" class="notification-dropdown hidden">
+                <div class="notification-header">
+                    <h3>Notifications</h3>
+                    <button id="clearNotifications" class="clear-btn">Clear All</button>
+                </div>
+                <div id="notificationList" class="notification-list">
+                    <div class="empty-notifications">No notifications</div>
+                </div>
+        </div>
+    </div>
+
+                
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">
+                <i class="fas fa-people-arrows"></i>
+            </div>
+            <h2>WaitLess</h2>
+            <p class="hero-subtitle">Don't wait in line. Wait smart.</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="ri-computer-fill"></i>
+                <div class="feature-content">
+                    <h3>Real-time tracking</h3>
+                    <p>Monitor your position live</p>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fa-regular fa-bell"></i>
+                <div class="feature-content">
+                    <h3>Smart notifications</h3>
+                    <p>Get alerts when it's your turn</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="grid">
+            <!-- Queue Booking Section -->
+            <section class="booking-section">
+                <div class="card">
+                    <h2 class="section-title">Join a Virtual Queue</h2>
+
+                    <!-- Vendor Selection -->
+                    <div class="form-group">
+                        <label for="vendor">Select Vendor</label>
+                        <div class="select-wrapper">
+                            <select id="vendor">
+                                <option value="">-- Select a vendor --</option>
+                                <option value="college-canteen">College Canteen</option>
+                                <option value="bus-stand">Central Bus Stand</option>
+                                <option value="health-clinic">Hospital</option>
+                                <option value="library">University Library</option>
+                            </select>
+                            <div class="chevron">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Queue Info -->
+                    <div id="queueInfo" class="hidden">
+                        <div class="info-box">
+                            <div class="info-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="info-content">
+                                <h3 id="queueName">Queue Information</h3>
+                                <p>Estimated wait time: <span id="waitTime">0</span> minutes</p>
+                                <p>Current queue length: <span id="queueLength">0</span> people</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Your Details</label>
+                            <input type="text" id="userName" placeholder="Your name" required>
+                            <input type="tel" id="userPhone" placeholder="Phone number (for notifications)" required>
+                        </div>
+
+                        <button id="joinQueueBtn" class="btn-primary">
+                            <i class="fas fa-ticket-alt"></i> Get Queue Ticket
+                        </button>
+                    </div>
+
+                    <!-- Ticket Display -->
+                    <div id="ticketDisplay" class="hidden">
+                        <div class="ticket">
+                            <div class="ticket-header">
+                                <div class="ticket-info">
+                                    <h3 id="ticketVendor">Vendor Name</h3>
+                                    <p>Virtual Queue Ticket</p>
+                                </div>
+                                <div class="ticket-number" id="ticketNumber">1</div>
+                            </div>
+
+                            <div class="ticket-progress">
+                                <div class="progress-labels">
+                                    <span>Your position</span>
+                                    <span id="positionText">1 in queue</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div id="progressBar" class="progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <div class="ticket-details">
+                                <div class="detail-item">
+                                    <p>Estimated wait</p>
+                                    <p id="estimatedWait">~0 min</p>
+                                </div>
+                                <div class="detail-item">
+                                    <p>Joined at</p>
+                                    <p id="joinedTime">--:--</p>
+                                </div>
+                            </div>
+
+                            <button id="leaveQueueBtn" class="btn-secondary">Leave Queue</button>
+                        </div>
+
+                        <div class="notification-info">
+                            <i class="fas fa-bell"></i>
+                            <div class="notification-content">
+                                <h3>Notifications Enabled</h3>
+                                <p>We'll notify you when your turn is coming up.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Available Queues Section -->
+            <aside class="queues-section">
+                <div class="card">
+                    <h2 class="section-title">Available Queues</h2>
+
+                    <div class="queue-list">
+                        <div class="queue-card" data-vendor="college-canteen">
+                            <div class="queue-header">
+                                <div class="queue-info">
+                                    <h3>College Canteen</h3>
+                                    <p>Main campus food service</p>
+                                </div>
+                                <span class="status active">Active</span>
+                            </div>
+                            <div class="queue-meta">
+                                <span><i class="fas fa-users"></i> 8 in queue</span>
+                                <span><i class="fas fa-clock"></i> ~15 min wait</span>
+                            </div>
+                        </div>
+
+                        <div class="queue-card" data-vendor="health-clinic">
+                            <div class="queue-header">
+                                <div class="queue-info">
+                                    <h3>Hospital</h3>
+                                    <p>Health services</p>
+                                </div>
+                                <span class="status active">Active</span>
+                            </div>
+                            <div class="queue-meta">
+                                <span><i class="fas fa-users"></i> 5 in queue</span>
+                                <span><i class="fas fa-clock"></i> ~25 min wait</span>
+                            </div>
+                        </div>
+
+                        <div class="queue-card" data-vendor="library">
+                            <div class="queue-header">
+                                <div class="queue-info">
+                                    <h3>University Library</h3>
+                                    <p>Book checkouts & returns</p>
+                                </div>
+                                <span class="status closed">Closed</span>
+                            </div>
+                            <div class="queue-meta">
+                                <span><i class="fas fa-users"></i> 0 in queue</span>
+                                <span>Opens at 8:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Queue Card -->
+                <div id="activeQueueCard" class="card active-queue hidden">
+                    <h2 class="section-title">Your Active Queue</h2>
+                    <div class="queue-header">
+                        <h3 id="activeQueueName">Queue Name</h3>
+                        <span class="status active">Active</span>
+                    </div>
+                    <p>Your position: <strong id="activeQueuePosition">1</strong></p>
+                    <div class="progress-bar">
+                        <div id="activeQueueProgress" class="progress" style="width: 0%"></div>
+                    </div>
+                    <p><i class="fas fa-clock"></i> Estimated wait: <span id="activeQueueWait">~0 min</span></p>
+                    <button id="activeLeaveQueueBtn" class="btn-danger">Leave Queue</button>
+                </div>
+
+                <!-- Queue Tips -->
+                <div class="card">
+                    <h2 class="section-title">Queue Tips</h2>
+                    <ul class="tips">
+                        <li><i class="fas fa-lightbulb"></i> You'll get a notification when you're next in line.</li>
+                        <li><i class="fas fa-lightbulb"></i> Check back periodically to see your updated position.</li>
+                        <li><i class="fas fa-lightbulb"></i> If you leave the queue, you'll lose your spot.</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+    <script src="script.js"></script>
+    
+</body>
+</html>
